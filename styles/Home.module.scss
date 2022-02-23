@@ -1,3 +1,5 @@
+$rosa: rgb(255, 0, 149);
+
 .container {
   padding: 0 2rem;
 }
@@ -20,6 +22,8 @@
   justify-content: center;
   align-items: center;
 }
+
+
 
 .footer a {
   display: flex;
@@ -65,6 +69,13 @@
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
+.foto {
+  border-radius: 20px;
+  margin: 30px auto;
+  max-width: 70%;
+
+}
+
 .grid {
   display: flex;
   align-items: center;
@@ -108,9 +119,65 @@
   margin-left: 0.5rem;
 }
 
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
     flex-direction: column;
+  }
+}
+
+.produtos {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2px;
+
+  margin-top: 20px;
+  
+  > div {
+
+    &[data-active=true] {
+      label {
+        input{
+          visibility: hidden;
+        }
+        img {
+          background-color: $rosa;
+          padding: 6px;
+        }  
+      }
+    }
+
+    label {
+      input{
+        visibility: hidden;
+      }
+      img {
+        max-width: 80px;
+        background-color: #eee;
+        padding: 6px;
+      }  
+    }
+  }
+
+}
+
+.fixOnTop {
+
+  ul {
+    margin: 0px;
+    padding: 0px;
+    li {
+      display: flex;
+      justify-content: space-between;
+      background-color: #eee;
+      margin-bottom: 2px;
+      padding: 4px;
+    }
+  }
+
+  button {
+    background-color: $rosa;
+    margin: 20px 0 0;
   }
 }
