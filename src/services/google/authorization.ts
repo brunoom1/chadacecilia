@@ -50,6 +50,13 @@ function authorize(credentials: {installed: {
   const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
 
+  if (process.env.GOOGLE_TOKEN) {
+    const credential:any = process.env.GOOGLE_TOKEN;
+    oAuth2Client.setCredentials(credential);
+    callback(oAuth2Client);
+    return;
+  }
+
   // Check if we have previously stored a token.
   fs.readFile(token_file, (err, token) => {
     if (err) return getNewToken(oAuth2Client, callback);
