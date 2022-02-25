@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link';
+import Script from 'next/script';
 
 import { FormEventHandler, useEffect, useState } from 'react'
 
@@ -105,37 +106,43 @@ const Home: NextPage = () => {
                     onKeyUp={(evt) => setNome(evt.currentTarget.value)}
                     defaultValue={nome}
                     type="text" 
-                    name="name" 
+                    name="name"
+                    autoComplete="off"
                     className="form-control" />
                 </div>
 
-                <p>
-                  Abaixo selecionamos preparamos uma lista com os itens que precisamos. 
-                </p>
+                {nome.length > 3 && <>
+                    <div className="card mb-2">
+                      <div className="card-body">
+                        <strong>{ nome }</strong>, preparamos uma lista com os itens que precisamos. 
+                      </div>
+                    </div>
 
-                <div className="card">
-                  <div className="card-body">
-                    <strong> 
-                      Seus presentes
-                    </strong>
-                    <ul>
-                      { productsSelecteds.map(product => {
-                        const p = products[product];
-                        return <li key={product}>
-                          { p.title } - <Link href={ p.link }><a target={"_blank"}> Comprar </a></Link>
-                        </li>
-                      })}
-                    </ul>
+                    { productsSelecteds.length > 0 &&
+                    <div className="card" id="presentes" data-fixed={false}>
+                      <div className="card-body">
+                        <strong> 
+                          Seus presentes
+                        </strong>
+                        <ul>
+                          { productsSelecteds.map(product => {
+                            const p = products[product];
+                            return <li key={product}>
+                              <p>{ p.title }</p>
+                              <Link href={ p.link }><a target={"_blank"}> Comprar </a></Link>
+                            </li>
+                          })}
+                        </ul>
 
-                    <button className='btn btn-default' type="submit">
-                      Enviar
-                    </button>
+                        <button className='btn btn-default' type="submit">
+                          Enviar
+                        </button>
 
-                  </div>
-                </div>
-              </div>
-      
-              <div className={ styles.produtos }>
+                      </div>
+                    </div>
+                  }
+
+                    <div className={ styles.produtos }>
                 {
                   products.map ((product, i) => 
                     <div className="produto" 
@@ -147,6 +154,7 @@ const Home: NextPage = () => {
                           Swal.fire({
                             text: `${product.requerente} já escolheu esse presente.`
                           });
+                          return;
                         }
                         selectProduct(i);
                         evt.stopPropagation();
@@ -162,6 +170,12 @@ const Home: NextPage = () => {
                 }
               </div>
 
+                  </>
+                }
+
+              </div>
+      
+
       
             </form>
           </div>
@@ -170,6 +184,7 @@ const Home: NextPage = () => {
 
       <footer className={styles.footer}>
       </footer>
+      <Script src='js/front.js' />
     </div>
   )
 }

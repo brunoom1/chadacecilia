@@ -130,6 +130,10 @@ $rosa: rgb(255, 0, 149);
 $produtoLargura: 90px;
 $produtoAltura: 100px;
 
+#presentes {
+  background-color: red;
+}
+
 .produtos {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -155,7 +159,9 @@ $produtoAltura: 100px;
         text-align: center;
         font-weight: bolder;
         line-height: 12px;
-
+        font-size: 12px;
+        color: #000;
+        text-shadow: #000 2px 2px 8px;
       }
   
       input{
@@ -198,6 +204,14 @@ $produtoAltura: 100px;
       margin-bottom: 2px;
       padding: 4px;
     }
+  }
+
+  & [data-fixed=true] {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 99;
+    background-color: red;
   }
 
   button {
