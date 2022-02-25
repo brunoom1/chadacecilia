@@ -53,7 +53,7 @@ function authorize(credentials: {installed: {
   // Check if we have previously stored a token.
   fs.readFile(token_file, (err, token) => {
     if (err) return getNewToken(oAuth2Client, callback);
-    oAuth2Client.setCredentials(JSON.parse(token));
+    oAuth2Client.setCredentials(JSON.parse(token.toString()));
     callback(oAuth2Client);
   });
 }
@@ -76,7 +76,7 @@ function getNewToken(oAuth2Client: any, callback: any) {
   });
   rl.question('Enter the code from that page here: ', (code) => {
     rl.close();
-    oAuth2Client.getToken(code, (err, token) => {
+    oAuth2Client.getToken(code, (err: any, token: string) => {
       if (err) return console.error('Error while trying to retrieve access token', err);
       oAuth2Client.setCredentials(token);
       // Store the token to disk for later program executions
