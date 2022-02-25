@@ -18,7 +18,7 @@ export async function auth () {
   // Load client secrets from a local file.
   return new Promise((resolve, reject) => {
 
-    if (process.env.API_CREDENTIALS) {
+    if (process.env.GOOGLE_TOKEN && process.env.API_CREDENTIALS) {
       authorize(JSON.parse(process.env.API_CREDENTIALS), (auth: any) => {
         resolve(auth);
       });
@@ -51,7 +51,8 @@ function authorize(credentials: {installed: {
       client_id, client_secret, redirect_uris[0]);
 
   if (process.env.GOOGLE_TOKEN) {
-    const credential:any = process.env.GOOGLE_TOKEN;
+    const credential:any = JSON.parse(process.env.GOOGLE_TOKEN);
+
     oAuth2Client.setCredentials(credential);
     callback(oAuth2Client);
     return;
