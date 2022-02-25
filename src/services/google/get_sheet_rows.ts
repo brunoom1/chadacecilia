@@ -27,7 +27,7 @@ export const get_sheet_rows = async (authClient: any, sheetid: string) => {
       requerido: string) {
       this.ID = id;
       this.TITULO = titulo;
-      this.IMAGEM = imagem;
+      this.IMAGEM = imagem? imagem: 'https://dummyimage.com/300x300/000/fff&text=Sem+imagem';
       this.LINK = link;
       this.REQUERENTE = requerente;
       this.REQUERIDO = requerido

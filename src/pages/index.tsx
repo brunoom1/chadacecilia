@@ -4,15 +4,16 @@ import Link from 'next/link';
 
 import { FormEventHandler, useEffect, useState } from 'react'
 
-import styles from '../styles/Home.module.scss'
+import Swal from "sweetalert2";
 
+import styles from '../styles/Home.module.scss'
 
 type Data = {
   id: number;
   title: string;
   image: string;
   link: string;
-  requirente: string;
+  requerente: string;
 };
 
 const Home: NextPage = () => {
@@ -65,7 +66,7 @@ const Home: NextPage = () => {
           title: product.TITULO,
           image: product.IMAGEM,
           link: product.LINK,
-          requirente: product.REQUIRENTE
+          requerente: product.REQUERENTE
         })));
       });
   }, []);
@@ -139,14 +140,21 @@ const Home: NextPage = () => {
                   products.map ((product, i) => 
                     <div className="produto" 
                       key={ i } 
+                      data-selected={ !!product.requerente }
                       data-active={ productsSelecteds.includes(i) }
                       onClick={ (evt) => {
+                        if (product.requerente) {
+                          Swal.fire({
+                            text: `${product.requerente} já escolheu esse presente.`
+                          });
+                        }
                         selectProduct(i);
                         evt.stopPropagation();
                         evt.preventDefault();
                       } }
                     >
                       <label>
+                        <span>{product.requerente}</span>
                         <img src={ product.image } alt={ product.title } />
                       </label>
                     </div>

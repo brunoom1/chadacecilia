@@ -4,15 +4,6 @@ import { get_sheet_rows } from '../../../services/google/get_sheet_rows';
 import { auth } from '../../../services/google/authorization';
 import { spreadsheetId } from "./../../../config";
 
-type Data = {
-  ID: number;
-  TITULO: string;
-  IMAGEM: string;
-  LINK: string;
-  REQUERENTE: string;
-  REQUERIDO: string;
-};
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
