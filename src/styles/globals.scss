@@ -1,0 +1,27 @@
+@import './variables.scss';
+@import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&family=Rochester&family=Titillium+Web:wght@200;300;400;600&display=swap');
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Rochester', cursive;
+  background-color: $yellow;
+  font-size: 24px;
+  color: $brow;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Rochester', cursive;
+  font-weight: 400;
+  font-size: 1em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
