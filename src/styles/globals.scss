@@ -6,15 +6,17 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Rochester', cursive;
+  font-weight: 400;
   background-color: $yellow;
   font-size: 24px;
   color: $brow;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, button {
   font-family: 'Rochester', cursive;
   font-weight: 400;
   font-size: 1em;
+  color: $brow;
 }
 
 a {

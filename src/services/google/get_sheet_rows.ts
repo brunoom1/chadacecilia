@@ -51,37 +51,3 @@ export const get_sheet_rows = async (authClient: any, sheetid: string) => {
 
   return columns;
 }
-
-// export const getCorretores = async (): Promise<Corretor[]> => {
-//   const result = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetid}?key=${apikey}&includeGridData=true`);
-//   const corretores: Corretor[] = [];
-
-//   if (result.ok) {
-//     const { sheets } = await result.json() as ResultInterface;
-
-//     sheets.forEach(sheet => {
-//       if (sheet.properties.title === 'corretores') {
-//         sheet.data.forEach(data => {
-//           data.rowData.forEach(row => {
-//             const corretor = new Corretor();
-//             let hasDataInLine = false;
-//             row.values.map((valor, key) => {
-//               if (valor.formattedValue){
-//                 corretor[Corretor.fields[key]] = valor.formattedValue;
-//                 hasDataInLine = true;
-//               }
-//             });
-
-//             if (hasDataInLine) {
-//               corretores.push(corretor);
-//             }
-//           })
-//         })
-//       }
-//     });
-//   } else {
-//     console.log(result.status, result.statusText);
-//   }
-
-//   return corretores;
-// }

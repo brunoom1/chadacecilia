@@ -9,8 +9,17 @@ export default async function handler(
   res: NextApiResponse
 ) {
 
-  const authResult = await auth();
-  const columns = await get_sheet_rows(authResult, spreadsheetId);
-  
-  res.status(200).json(columns);
+  try {
+    const authResult = await auth();
+
+    const columns = await get_sheet_rows(authResult, spreadsheetId);
+    res.status(200).json(columns);
+  } catch (err) {
+
+    if (err instanceof Error) {
+      res.status(401).json({
+        error: err.message
+      });
+    }
+  }  
 }

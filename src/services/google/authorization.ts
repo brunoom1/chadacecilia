@@ -25,6 +25,8 @@ export async function auth () {
       return;
     }
 
+    console.log("Ready files on credentials");
+
     fs.readFile(credentials_file, (err, content) => {
       if (err) reject('Error loading client secret file:');
       // Authorize a client with credentials, then call the Google Sheets API.
@@ -50,17 +52,22 @@ function authorize(credentials: {installed: {
   const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
 
+  console.log("OAuth login");
+
   if (process.env.GOOGLE_TOKEN) {
     const credential:any = JSON.parse(process.env.GOOGLE_TOKEN);
 
     oAuth2Client.setCredentials(credential);
     callback(oAuth2Client);
     return;
+  } else {
+    console.log("GOOLE_TOKEN is not present");
   }
 
   // Check if we have previously stored a token.
   fs.readFile(token_file, (err, token) => {
     if (err) return getNewToken(oAuth2Client, callback);
+    
     oAuth2Client.setCredentials(JSON.parse(token.toString()));
     callback(oAuth2Client);
   });

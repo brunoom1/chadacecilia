@@ -5,8 +5,6 @@ import Script from 'next/script';
 
 import { FormEventHandler, useEffect, useState } from 'react'
 
-import { Icon } from './../componentes/Icon';
-
 import Swal from "sweetalert2";
 import styles from '../styles/Home.module.scss'
 
@@ -23,54 +21,76 @@ const Home: NextPage = () => {
   const [products, setProducts] = useState<Data[]>([]);
   const [productsSelecteds, setProductsSelecteds] = useState<number[]>([]);
   const [nome, setNome] = useState<string>('');
-  const [sending, setSending] = useState<boolean>(false);
+  const [enviando, setEnviando] = useState<boolean>(false);
+
+  const getProducts = () => {
+    fetch('/api/presente')
+    .then(async response => {
+      const products = await response.json();
+
+      setProducts(products.map((product: any) => ({
+        id: product.ID,
+        title: product.TITULO,
+        image: product.IMAGEM,
+        link: product.LINK,
+        requerente: product.REQUERENTE
+      })));
+    });
+  }
 
   const selectProduct = (i: number) => {
     if (productsSelecteds.includes(i)) {
-      const copy = productsSelecteds;
-      copy.splice(productsSelecteds.indexOf(i), 1);
-      setProductsSelecteds([...copy]);
+      removeProduct(i);
     } else {
       setProductsSelecteds([...productsSelecteds, i]);
     }
+
+    window.scrollTo({
+      top: 750,
+      behavior: 'smooth'
+    })
   }
 
   const formSend:FormEventHandler = async (evt) => {
     evt.preventDefault();
 
-    if (!sending) {
+    if (!enviando) {
 
       for (const productIndex of productsSelecteds) {
         const product = products[productIndex];
 
-        const result = await fetch('/api/presente/enviar', {
+        fetch('/api/presente/enviar', {
           method: 'POST',
           body: JSON.stringify({
             'nome': nome,
             'id': product.id
           })
-        });
+        }).then(() => {
+          setEnviando(false);
+          getProducts();
 
-        setSending(false);
+          Swal.fire("Sucesso!", "Seu presente foi enviado, obrigado por participar!")
+            .then(
+              () => setProductsSelecteds([])
+            );
+
+        }).catch(() => {
+          setEnviando(false);
+        })
       }
-      setSending(true);
+      setEnviando(true);
     }
 
   }
 
-  useEffect(() => {
-    fetch('/api/presente')
-      .then(async response => {
-        const products = await response.json();
+  const removeProduct = (i: number) => {
+    const copy = productsSelecteds;
+    copy.splice(productsSelecteds.indexOf(i), 1);
+    setProductsSelecteds([...copy]);
+  }
 
-        setProducts(products.map((product: any) => ({
-          id: product.ID,
-          title: product.TITULO,
-          image: product.IMAGEM,
-          link: product.LINK,
-          requerente: product.REQUERENTE
-        })));
-      });
+  useEffect(() => {
+    getProducts();
   }, []);
 
   return (
@@ -135,29 +155,39 @@ const Home: NextPage = () => {
 
           {nome.length >= 3 && <>
 
-          { productsSelecteds.length > 0 &&
-            <div className="card" id="presentes" data-fixed={false}>
-              <div className="card-body">
-                <strong> 
-                  Seus presentes
-                </strong>
-                <ul>
-                  { productsSelecteds.map(product => {
-                    const p = products[product];
-                    return <li key={product}>
-                      <p>{ p.title }</p>
-                      <Link href={ p.link }><a target={"_blank"}> Comprar </a></Link>
-                    </li>
-                  })}
-                </ul>
+          { !enviando && productsSelecteds.length > 0 &&
+            <div id="presentes" className={ styles.presentes } data-fixed={false}>
+              <strong> 
+                Seus presentes
+              </strong>
+              <ul>
+                { productsSelecteds.map(product => {
+                  const p = products[product];
+                  return <li key={product}>
+                    <p>{ p.title }</p>
 
-                <button className='btn btn-default' type="submit">
-                  Enviar
-                </button>
+                    <div>
+                      <Link href={ p.link }><a target={"_blank"}> 
+                        <img src={'/images/icone-carrinho.png'} />
+                      </a></Link>
 
-              </div>
+                      <a target={"_blank"} onClick={() => removeProduct(product)}> 
+                        <img src={'/images/icone-lixeira.png'} />
+                      </a>
+                    </div>
+                  </li>
+                })}
+              </ul>
+
+              <button className='btn btn-default' type="submit">
+                Enviar
+              </button>
             </div>
           }
+
+          { enviando && <div className={ styles.enviando }>
+              <img src="/images/loading.gif" /> enviando...
+            </div>}
 
           <div className={ styles.produtos }>
           {
@@ -188,7 +218,12 @@ const Home: NextPage = () => {
                 <div className={ styles.productLine }>
                   {/* <span>{product.requerente}</span> */}
                   <span>{ product.title }</span>
-                  <button className={ styles.btnAdicionar }> 
+
+                  {product.requerente && <div className={ styles.productRequerent }> 
+                    { product.requerente }, obrigado por fazer parte desse momento especial
+                  </div>}
+
+                  <button type="button" className={ styles.btnAdicionar }> 
                     <img src={'/images/carrinho.png'} />
                     <span>Adicionar</span>
                   </button> 
