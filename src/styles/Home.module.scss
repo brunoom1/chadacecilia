@@ -42,18 +42,32 @@
 .input {
   display: flex;
   flex-direction: column;
+  margin: 20px 0;
   
+  > div {
+    display: flex;
+  }
+
   input {
     border-color: $brow;
     border-style: solid;
     border-width: 1px;
     padding: 25px 20px;
-    border-radius: 20px;
-
+    border-radius: 20px 0 0 20px;
+    border-right: 0px;
+    flex: 1;
+    outline: none;
   }
 
   label {
     margin-left: 15px;
+  }
+
+  button {
+    background-color: $yellow;
+    border: solid 1px $brow;
+    padding: 0px 20px;
+    border-radius: 0 20px 20px 0;
   }
 }
 
@@ -98,7 +112,7 @@
     overflow: hidden;
     background-color: #fff;
     justify-content: center;
-
+    
     img {
       height: 60px;
     }

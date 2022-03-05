@@ -119,24 +119,27 @@ const Home: NextPage = () => {
         <img src="images/segonha.png" />
       </div>
 
-      <form onSubmit={ formSend }>
-
+      <form onSubmit={ formSend } id={ 'form-send' }></form>
 
       {!nome && <div className={ styles.input }>
           <label>
             Qual o seu nome? 
           </label>
 
-          <input 
-            onBlur={(evt) => setNome(evt.currentTarget.value)}
-            defaultValue={nome}
-            type="text" 
-            name="name"
-            autoComplete="off"
-            id={'name'}
-            className="form-control" />
+          <div>
+            <input 
+              onBlur={(evt) => setNome(evt.currentTarget.value)}
+              defaultValue={nome}
+              type="text" 
+              name="name"
+              autoComplete="off"
+              id={'name'}
+              className="form-control" />
+              <button> Enviar </button>
+          </div>
 
         </div>}
+        
 
         {nome && <div className={ styles.nome }> 
 
@@ -179,7 +182,9 @@ const Home: NextPage = () => {
                 })}
               </ul>
 
-              <button className='btn btn-default' type="submit">
+              <button className='btn btn-default' 
+                form='form-send'
+                type="submit">
                 Enviar
               </button>
             </div>
@@ -240,7 +245,6 @@ const Home: NextPage = () => {
 
 
 
-        </form>
 
     </div>
 
